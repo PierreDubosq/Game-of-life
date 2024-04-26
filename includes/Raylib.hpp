@@ -17,6 +17,9 @@ public:
   ~Raylib();
   static void traceLog(int logLevel, const char *text, va_list args);
 
+protected:
+  void displayIntro();
+
 private:
   Logger logger;
 };
