@@ -10,6 +10,12 @@ $ make
 $ ./game_of_life -h
 ```
 
+## Example of use
+
+```bash
+$ ./game_of_life -h=1280 -w720
+```
+
 ## Libraries
 
 - [Raylib 5.0](https://www.raylib.com/)
