@@ -64,4 +64,9 @@ public:
     BG_LIGHT_CYAN = 106,
     BG_WHITE = 107
   };
+
+  static std::string color(Console::Formattings formatting,
+                           Console::ForegroundColors foregroundColor,
+                           Console::BackgroundColors backgroundColor);
+  static std::string color();
 };
