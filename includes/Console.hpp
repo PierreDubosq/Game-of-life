@@ -43,4 +43,25 @@ public:
     FG_LIGHT_CYAN = 96,
     FG_WHITE = 97
   };
+
+  enum BackgroundColors
+  {
+    BG_DEFAULT = 49,
+    BG_BLACK = 40,
+    BG_RED = 41,
+    BG_GREEN = 42,
+    BG_YELLOW = 43,
+    BG_BLUE = 44,
+    BG_MAGENTA = 45,
+    BG_CYAN = 46,
+    BG_LIGHT_GRAY = 47,
+    BG_DARK_GRAY = 100,
+    BG_LIGHT_RED = 101,
+    BG_LIGHT_GREEN = 102,
+    BG_LIGHT_YELLOW = 103,
+    BG_LIGHT_BLUE = 104,
+    BG_LIGHT_MAGENTA = 105,
+    BG_LIGHT_CYAN = 106,
+    BG_WHITE = 107
+  };
 };
