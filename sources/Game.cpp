@@ -7,7 +7,7 @@
 
 #include "Game.hpp"
 
-Game::Game(int height, int width) : logger("Game"), raylib(height, width, "Game of life", 60)
+Game::Game(int height, int width) : logger("Game"), raylib(width, height, "Game of life", 60)
 {
   newGrid();
 
