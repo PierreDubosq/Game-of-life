@@ -11,7 +11,7 @@ Game::Game(int height, int width) : logger("Game"), raylib(width, height, "Game 
 {
   newGrid();
 
-  logger.info("Game created with screen size: " + std::to_string(GetScreenWidth()) + "x" + std::to_string(GetScreenHeight()));
+  logger.info("Game created with screen size: " + std::to_string(width) + "x" + std::to_string(height));
 }
 
 Game::~Game()
@@ -21,11 +21,14 @@ Game::~Game()
 
 void Game::newGrid()
 {
-  grid = std::vector(GetScreenWidth(), std::vector<bool>(GetScreenHeight(), false));
+  int width = GetScreenWidth();
+  int height = GetScreenHeight();
 
-  for (int i = 0; i < (GetScreenWidth() * GetScreenHeight()) / 10; i++)
+  grid = std::vector(width, std::vector<bool>(height, false));
+
+  for (int i = 0; i < (width * height) / 10; i++)
   {
-    grid[rand() % GetScreenWidth()][rand() % GetScreenHeight()] = true;
+    grid[rand() % width][rand() % height] = true;
   }
 }
 
@@ -45,11 +48,15 @@ void Game::run()
 
 void Game::update()
 {
-  std::vector<std::vector<bool>> newGrid(GetScreenWidth(), std::vector<bool>(GetScreenHeight(), false));
+  int width = GetScreenWidth();
+  int height = GetScreenHeight();
 
-  for (int y = 0; y < GetScreenHeight(); y++)
+  static std::vector<std::vector<bool>> newGrid(
+      width, std::vector<bool>(height, false));
+
+  for (int y = 0; y < height; y++)
   {
-    for (int x = 0; x < GetScreenWidth(); x++)
+    for (int x = 0; x < width; x++)
     {
       int neighbors = 0;
 
@@ -65,7 +72,7 @@ void Game::update()
           int nx = x + i;
           int ny = y + j;
 
-          if (nx < 0 || nx >= GetScreenWidth() || ny < 0 || ny >= GetScreenHeight())
+          if (nx < 0 || nx >= width || ny < 0 || ny >= height)
           {
             continue;
           }
@@ -99,6 +106,10 @@ void Game::update()
   }
 
   history.push_back(grid);
+  if (history.size() > 3)
+  {
+    history.erase(history.begin());
+  }
   grid = newGrid;
 }
 
@@ -126,19 +137,27 @@ void Game::checkEvents()
 
 void Game::checkEnd()
 {
-  if (history.size() > 1)
+  int historySize = history.size();
+  int screenHeight = GetScreenHeight();
+  int screenWidth = GetScreenWidth();
+
+  for (int i = 1; i <= 3 && i <= historySize; i++)
   {
     bool end = true;
 
-    for (int y = 0; y < GetScreenHeight(); y++)
+    for (int y = 0; y < screenHeight; y++)
     {
-      for (int x = 0; x < GetScreenWidth(); x++)
+      for (int x = 0; x < screenWidth; x++)
       {
-        if (grid[x][y] != history[history.size() - 1][x][y])
+        if (grid[x][y] != history[historySize - i][x][y])
         {
           end = false;
           break;
         }
+      }
+      if (!end)
+      {
+        break;
       }
     }
 
@@ -146,52 +165,7 @@ void Game::checkEnd()
     {
       logger.info("Game ended");
       CloseWindow();
-    }
-  }
-
-  if (history.size() > 2)
-  {
-    bool end = true;
-
-    for (int y = 0; y < GetScreenHeight(); y++)
-    {
-      for (int x = 0; x < GetScreenWidth(); x++)
-      {
-        if (grid[x][y] != history[history.size() - 2][x][y])
-        {
-          end = false;
-          break;
-        }
-      }
-    }
-
-    if (end)
-    {
-      logger.info("Game ended");
-      CloseWindow();
-    }
-  }
-
-  if (history.size() > 3)
-  {
-    bool end = true;
-
-    for (int y = 0; y < GetScreenHeight(); y++)
-    {
-      for (int x = 0; x < GetScreenWidth(); x++)
-      {
-        if (grid[x][y] != history[history.size() - 3][x][y])
-        {
-          end = false;
-          break;
-        }
-      }
-    }
-
-    if (end)
-    {
-      logger.info("Game ended");
-      CloseWindow();
+      return;
     }
   }
 }
