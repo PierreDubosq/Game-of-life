@@ -110,7 +110,7 @@ void Game::draw()
     {
       if (grid[x][y])
       {
-        DrawPixel(x, y, grid[x][y] ? BLACK : WHITE);
+        DrawPixel(x, y, BLACK);
       }
     }
   }
